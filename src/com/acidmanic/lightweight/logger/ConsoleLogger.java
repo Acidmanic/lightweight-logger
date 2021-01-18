@@ -13,7 +13,7 @@ import com.acidmanic.consoletools.terminal.styling.TerminalStyles;
  * @author diego
  */
 public class ConsoleLogger implements Logger {
-    
+
     @Override
     public void log(String text) {
         Terminal t = new Terminal();
@@ -28,7 +28,7 @@ public class ConsoleLogger implements Logger {
         System.out.println(message);
         t.resetScreenAttributes();
     }
-    
+
     @Override
     public void warning(String message) {
         Terminal t = new Terminal();
@@ -36,9 +36,9 @@ public class ConsoleLogger implements Logger {
         System.out.println(message);
         t.resetScreenAttributes();
     }
-    
+
     @Override
-    public void info(String message){
+    public void info(String message) {
         Terminal t = new Terminal();
         t.setScreenAttributes(TerminalStyles.BlueInput);
         System.out.println(message);
