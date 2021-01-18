@@ -6,6 +6,7 @@
     <artifactId>lightweight-logger</artifactId>
     <packaging>jar</packaging>
     <version>1.0.0</version>
+    <name>lightweight-logger</name>
     <description>Very simple logging contract with two implementations</description>
     <url>https://github.com/Acidmanic/lightweight-logger</url>
     <licenses>
