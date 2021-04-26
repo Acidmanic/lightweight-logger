@@ -31,52 +31,71 @@ import java.util.List;
  * @author Mani Moayedi (acidmanic.moayedi@gmail.com)
  */
 public class ArchiveLogger implements Logger {
-    
-    private final List<LogRecord> records;
-    
-    private boolean valid;
+
+    private final List<LogItem> records;
+    private int warnings;
+    private int errors;
 
     public ArchiveLogger() {
+
         this.records = new ArrayList<>();
-        this.valid = false;
-    }
-    
-    @Override
-    public void log(String message){
-        this.records.add(new LogRecord(LogTypes.LOG, message));
-    }
-    
-    @Override
-    public void info(String message){
-        this.records.add(new LogRecord(LogTypes.LOG, message));
-    }
-    
-    @Override
-    public void warning(String message){
-        this.records.add(new LogRecord(LogTypes.WARNING, message));
-    }
-    
-    @Override
-    public void error(String message){
-        this.records.add(new LogRecord(LogTypes.ERROR, message));
+
+        clear();
     }
 
-    public boolean isValid() {
-        return valid;
+    @Override
+    public void log(String message) {
+
+        this.records.add(new LogItem(message, LogTypes.LOG));
     }
 
-    public void setValid(boolean valid) {
-        this.valid = valid;
+    @Override
+    public void info(String message) {
+
+        this.records.add(new LogItem(message, LogTypes.LOG));
     }
-    
-    public List<LogRecord> getRecords(){
-        
-        ArrayList<LogRecord> ret = new ArrayList<>();
-        
+
+    @Override
+    public void warning(String message) {
+
+        this.warnings += 1;
+
+        this.records.add(new LogItem(message, LogTypes.WARNING));
+    }
+
+    @Override
+    public void error(String message) {
+
+        this.errors += 1;
+
+        this.records.add(new LogItem(message, LogTypes.ERROR));
+    }
+
+    public List<LogItem> getRecords() {
+
+        ArrayList<LogItem> ret = new ArrayList<>();
+
         ret.addAll(this.records);
-        
+
         return ret;
     }
-    
-    
+
+    public final void clear() {
+        this.errors = 0;
+        this.warnings = 0;
+        this.records.clear();
+    }
+
+    public ResultTypes getOverallSuccess() {
+
+        if (this.errors > 0) {
+
+            return ResultTypes.Failed;
+        }
+        if (this.warnings > 0) {
+
+            return ResultTypes.PassedWithWarnings;
+        }
+        return ResultTypes.FlawlessSuccess;
+    }
 }
